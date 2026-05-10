@@ -52,10 +52,20 @@ const signUp = async (req, res, next) => {
 
     await UserModel.findByIdAndUpdate(newUser._id, {
       $push: {
-        refreshToken: {
-          token: RefreshToken,
-          expireAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-        },
+        
+          refreshToken: {
+            $each : [
+              {
+
+                token: RefreshToken,
+                expireAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+              }
+            ], 
+            $slice : -5 
+          },
+          
+        
+        
       },
     });
     const safeUser = {
@@ -96,7 +106,7 @@ const signIn = async (req, res, next) => {
     };
 
     const RefreshToken =  RefreshTokenGenerate(payload) ; 
-    const AccesToken = AccessTokenGenerate({userId : UserExist._id}) ; 
+    const AccesToken = AccessTokenGenerate({ userId: UserExist._id }); ; 
     const GetCookiePayload = getCookiepayload() ;
     
 
@@ -107,8 +117,14 @@ const signIn = async (req, res, next) => {
     await UserModel.findByIdAndUpdate(UserExist._id , {
         $push : {
             refreshToken : {
-                token : RefreshToken , 
-                expireAt : new Date(Date.now() + 7 * 24 * 60 * 60 *1000)
+              $each : [
+                {
+                  token : RefreshToken , 
+                  expireAt : new Date(Date.now() + 7 * 24 * 60 * 60 *1000)
+
+                }
+              ], 
+              $slice : -5 
             }
         }
     })

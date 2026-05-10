@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken') ; 
 const AccessTokenGenerate = (payload)=>{
-    return jwt.sign(payload, process.env.REFRESS_SECRET_KEY, {
+    return jwt.sign(payload, process.env.ACCESS_SECRET_KEY, {
       expiresIn: process.env.ACESS_TOKEN_TIME,
     });
 }
@@ -13,7 +13,7 @@ const validRefreshToken = (refresToken)=>{
     return jwt.verify(refresToken, process.env.REFRESS_SECRET_KEY);
 }
 const validAccessToken = (Accesstoken)=>{
-    return jwt.verify(Accesstoken, process.env.REFRESS_SECRET_KEY);
+    return jwt.verify(Accesstoken, process.env.ACCESS_SECRET_KEY);
 }
 
 const getCookiepayload = ()=>{

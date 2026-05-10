@@ -9,6 +9,7 @@ const port = process.env.PORT ;
 
 
 const AuthRouter = require('./src/routes/auth.route');
+const UpdateRouter = require('./src/routes/user.route');
 
 app.use(express.json()) ; 
 app.use(express.urlencoded({extended : true})) ; 
@@ -22,6 +23,8 @@ app.use(cors({
 connectedDb();
 
 app.use("/api/auth" ,AuthRouter) ;
+app.use('/api/user' , UpdateRouter);
+
 
 
 app.use((err , req, res, next)=>{
