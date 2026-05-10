@@ -8,6 +8,8 @@ const connectedDb = require('./src/config/db');
 const port = process.env.PORT ; 
 
 
+const AuthRouter = require('./src/routes/auth.route');
+
 app.use(express.json()) ; 
 app.use(express.urlencoded({extended : true})) ; 
 app.use(cookieparser()) ; 
@@ -18,6 +20,15 @@ app.use(cors({
 
 
 connectedDb();
+
+app.use("/api/auth" ,AuthRouter) ;
+
+
+app.use((err , req, res, next)=>{
+  const StatusCode = err.statusCode  || 500 ; 
+  const Message = err.message  || "INTERNAL SERVER ERROR";
+  res.status(StatusCode).json({ Message , success: false });  
+})
 
 app.listen(port, () => {
   console.log(`Server Is Running At the Port -${port}`);

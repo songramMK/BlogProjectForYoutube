@@ -7,7 +7,8 @@ dotenv.config() ;
 const authMiddleware = (req, res , next)=>{
     const AuthToken = req.cookies?.accessToken ; 
     if(!AuthToken){
-        return next(response(res , 401 , "Authorization Token Missing, please login first" ) ); 
+      return next(errorHandler(401, "INVALID USER"));
+
     }
     try{
         const decode = validAccessToken(AuthToken) ;
@@ -15,7 +16,7 @@ const authMiddleware = (req, res , next)=>{
         next() ; 
     }catch(error){
         console.log(error); 
-        return response(res, 500 , "INTERNAL SERVER ERROR") ; 
+        return next(error);
     }
 
 }
