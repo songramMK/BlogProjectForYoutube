@@ -8,6 +8,14 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+const deleteFileToCloudinary = async(public_id) =>{
+    try{
+        await cloudinary.uploader.destroy(public_id) ; 
+    }catch(error){
+        console.log("Delete File To cloudinary: --> ",error);
+    }
+}
+
 const uploadFileToCloudinary = async(file)=>{
     try{
         const option = {
@@ -30,4 +38,8 @@ const uploadFileToCloudinary = async(file)=>{
 
 const multerMiddleware = multer({dest : "uploads/"}).single('image') ; 
 
-module.exports = { uploadFileToCloudinary, multerMiddleware };
+module.exports = {
+  uploadFileToCloudinary,
+  multerMiddleware,
+  deleteFileToCloudinary,
+};
