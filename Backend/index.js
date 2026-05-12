@@ -11,6 +11,7 @@ const port = process.env.PORT ;
 const AuthRouter = require('./src/routes/auth.route');
 const UpdateRouter = require('./src/routes/user.route');
 const PostRouter = require('./src/routes/post.route'); 
+const commentRouter = require('./src/routes/comment.route');
 
 app.use(express.json()) ; 
 app.use(express.urlencoded({extended : true})) ; 
@@ -26,6 +27,7 @@ connectedDb();
 app.use("/api/auth" ,AuthRouter) ;
 app.use('/api/user' , UpdateRouter);
 app.use("/api/post", PostRouter);
+app.use('/api/comment' , commentRouter) ; 
 
 
 
